@@ -6,16 +6,29 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'timer_controller.dart';
 
+/// A widget that manages a timer capable of running
+/// logic even when the app is in the background or close.
 class BackgroundTimer extends StatefulWidget {
+  /// The initial duration of the timer in seconds.
   final int seconds;
+
+  /// The controller responsible for handling the timer logic and state.
   final TimerController? controller;
-  final TimerStorageManager storageManager;
+
+  /// The storageManager responsible for storing the timer values
+  final TimerStorageManager? storageManger;
+
+  /// Creates a new [BackgroundTimer] instance.
+  ///
+  /// Requires a [controller] to manage state and the initial
+  /// amount of [seconds] for the countdown.
+  /// [storageManger] for storing the timer values
 
   const BackgroundTimer({
     super.key,
     required this.seconds,
-    required this.storageManager,
     this.controller,
+    this.storageManger,
   });
 
   @override
@@ -30,7 +43,7 @@ class _BackgroundTimerState extends State<BackgroundTimer>
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    _cubit = TimerCubit(storageManager: widget.storageManager)..init();
+    _cubit = TimerCubit()..init();
     // Link the user's controller to internal Cubit
     widget.controller?.attach(_cubit);
   }

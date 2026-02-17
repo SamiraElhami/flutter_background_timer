@@ -70,7 +70,6 @@ void main() {
           .having((s) => s.secondsRemaining, 'seconds', 50)
           .having((s) => s.isPaused, 'paused', true)
           .having((s) => s.isRunning, 'running', false),
-
       isA<TimerState>()
           .having((s) => s.secondsRemaining, 'seconds', 50)
           .having((s) => s.isPaused, 'paused', false)
@@ -92,7 +91,6 @@ void main() {
       isA<TimerState>()
           .having((s) => s.secondsRemaining, 'seconds', 30)
           .having((s) => s.isRunning, 'running', true),
-
       isA<TimerState>()
           .having((s) => s.secondsRemaining, 'seconds', 30)
           .having((s) => s.isPaused, 'paused', true)
@@ -104,9 +102,8 @@ void main() {
     test('returns correct remaining time after background lapse', () async {
       final now = DateTime.now();
 
-      final savedTimeAt = now
-          .subtract(const Duration(seconds: 10))
-          .millisecondsSinceEpoch;
+      final savedTimeAt =
+          now.subtract(const Duration(seconds: 10)).millisecondsSinceEpoch;
 
       when(() => mockTimerStorage.loadSeconds()).thenAnswer((_) async => 60);
       when(
@@ -121,9 +118,8 @@ void main() {
 
     test('returns -1 if the timer expired while in background', () async {
       final now = DateTime.now();
-      final savedTimeAt = now
-          .subtract(const Duration(seconds: 30))
-          .millisecondsSinceEpoch;
+      final savedTimeAt =
+          now.subtract(const Duration(seconds: 30)).millisecondsSinceEpoch;
 
       when(() => mockTimerStorage.loadSeconds()).thenAnswer((_) async => 10);
       when(
@@ -142,9 +138,8 @@ void main() {
 
     final cubit = TimerCubit(storageManager: mockManager);
 
-    final savedTimestamp = now
-        .subtract(const Duration(seconds: 10))
-        .millisecondsSinceEpoch;
+    final savedTimestamp =
+        now.subtract(const Duration(seconds: 10)).millisecondsSinceEpoch;
 
     when(() => mockTimerStorage.loadSeconds()).thenAnswer((_) async => 60);
     when(

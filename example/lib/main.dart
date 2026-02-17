@@ -13,9 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'demo',
-      theme: ThemeData(
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
-      ),
+      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
       home: const MyHomePage(title: 'Flutter Background Timer'),
     );
   }
@@ -30,7 +28,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final myController = TimerController();
+  final _controller = TimerController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,22 +40,26 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Center(
         child: Column(
           children: [
-            BackgroundTimer(seconds: 60, controller: myController,
-              storageManager: TimerStorageManager(),),
-            ElevatedButton(
-              onPressed: () => myController.pause(),
-              child: Text("Pause"),
-            ),
-            ElevatedButton(
-              onPressed: () => myController.resume(),
-              child: Text("Resume"),
-            ),
-            ElevatedButton(
-              onPressed: () => myController.reset(60),
-              child: Text("Restart"),
+            BackgroundTimer(seconds: 120, controller: _controller),
+            Row(
+              spacing: 10,
+              children: [
+                ElevatedButton(
+                  onPressed: () => _controller.pause(),
+                  child: Text("Pause"),
+                ),
+                ElevatedButton(
+                  onPressed: () => _controller.resume(),
+                  child: Text("Resume"),
+                ),
+                ElevatedButton(
+                  onPressed: () => _controller.reset(60),
+                  child: Text("Reset to 1 min"),
+                ),
+              ],
             ),
           ],
-      ),
+        ),
       ),
     );
   }
