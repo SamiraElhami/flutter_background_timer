@@ -4,7 +4,7 @@ This README is designed to be professional, clear, and focused on the technical 
 
 # Flutter Background Timer
 
-A robust Flutter timer implementation using **BLoC/Cubit** that accurately tracks time even when the app is in the background, terminated, or the device is restarted.
+A Flutter timer implementation using **BLoC/Cubit** that accurately tracks time even when the app is in the background, terminated, or the device is restarted.
 
 ## 🚀 The Problem
 
@@ -26,7 +26,7 @@ Add the dependencies to your `pubspec.yaml`:
 dependencies:
   flutter_bloc: ^8.1.0
   shared_preferences: ^2.2.0
-  clock: ^1.1.1
+
 
 ```
 
@@ -41,44 +41,28 @@ The magic happens in the `currentTimer()` logic within the `TimerCubit`:
 
 ## 💻 Usage
 
-### Initializing the Cubit
+### Initializing the Controller
 
 ```dart
-final timerCubit = TimerCubit(
-  storageManager: TimerStorageManager(),
-);
+final myController = TimerController();
 
-// Load previous state (if any)
-timerCubit.init();
+BackgroundTimer(seconds: 60, controller: myController,
+storageManager: TimerStorageManager(),);
 
 ```
 
 ### Basic Actions
 
 ```dart
-// Start a timer for 60 seconds
-context.read<TimerCubit>().start(60);
 
 // Pause timer (saves state to storage)
-context.read<TimerCubit>().pause();
+myController.pause();
 
 // Resume timer
-context.read<TimerCubit>().resume();
+myController.resume();
 
-```
-
-### Handling App Lifecycle
-
-To ensure the timer saves its state when the user swipes the app away, use the `onBackground` hook:
-
-```dart
-// Inside your State or App Lifecycle Listener
-@override
-void didChangeAppLifecycleState(AppLifecycleState state) {
-  if (state == AppLifecycleState.paused) {
-    timerCubit.onBackground();
-  }
-}
+// Reset timer
+myController.reset(60);
 
 ```
 
