@@ -1,8 +1,9 @@
 name: background_timer_package
-description: "A new Flutter package project."
-version: 0.0.1
-homepage:
-
+description: A Flutter timer that persists and calculates elapsed time when the app is in the background or terminated.
+version: 1.0.0
+homepage: https://github.com/SamiraElhami/flutter_background_timer
+repository: https://github.com/SamiraElhami/flutter_background_timer
+issue_tracker: https://github.com/SamiraElhami/flutter_background_timer/issues
 environment:
   sdk: ^3.11.0-276.0.dev
   flutter: ">=1.17.0"
