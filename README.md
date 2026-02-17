@@ -30,10 +30,7 @@ Add the dependencies to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  flutter_bloc: ^8.1.0
-  shared_preferences: ^2.2.0
-
-
+  background_timer_package: ^1.0.0
 ```
 ---
 ## 🧠 How it Works
