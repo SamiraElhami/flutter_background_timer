@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:background_timer_package/storage/timer_storage_manager.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'timer_state.dart';
 
 class TimerCubit extends Cubit<TimerState> {
   final TimerStorageManager storageManager;
+
   Timer? _timer;
 
   TimerCubit({required this.storageManager})
@@ -50,18 +51,12 @@ class TimerCubit extends Cubit<TimerState> {
 
   void stop() {
     _timer?.cancel();
-    emit(
-      TimerState(secondsRemaining: 0, isRunning: false, isPaused: false),
-    );
+    emit(TimerState(secondsRemaining: 0, isRunning: false, isPaused: false));
   }
 
   void _startTimer(int seconds) {
     emit(
-      TimerState(
-        secondsRemaining: seconds,
-        isRunning: true,
-        isPaused: false,
-      ),
+      TimerState(secondsRemaining: seconds, isRunning: true, isPaused: false),
     );
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -81,10 +76,18 @@ class TimerCubit extends Cubit<TimerState> {
     });
   }
 
-  void onBackground() async {
-   await storageManager.backGroundTimeStampStorage.saveSeconds(currentTimeStampInEpoch());
+  Future<void> onBackground() async {
+    final timestamp = currentTimeStampInEpoch();
+    await storageManager.backGroundTimeStampStorage.saveSeconds(timestamp);
     await storageManager.timerStorage.saveSeconds(state.secondsRemaining);
-   _timer?.cancel();
+    emit(
+      TimerState(
+        isRunning: false,
+        secondsRemaining: state.secondsRemaining,
+        isPaused: true,
+      ),
+    );
+    _timer?.cancel();
   }
 
   @override
@@ -95,16 +98,14 @@ class TimerCubit extends Cubit<TimerState> {
 
   int currentTimeStampInEpoch() => DateTime.now().millisecondsSinceEpoch;
 
-  FutureOr<int> currentTimer()  async {
-    final int savedTimer = await storageManager.timerStorage
-        .loadSeconds() ?? 0;
-    final int savedTimeStamp = await storageManager.backGroundTimeStampStorage
-        .loadSeconds() ?? 0;
-    final int diff = ((currentTimeStampInEpoch() - savedTimeStamp) /1000).floor();
+  FutureOr<int> currentTimer() async {
+    final int savedTimer = await storageManager.timerStorage.loadSeconds() ?? 0;
+    final int savedTimeStamp =
+        await storageManager.backGroundTimeStampStorage.loadSeconds() ?? 0;
+    final int currentTimeStamp = currentTimeStampInEpoch();
+    final int diff = ((currentTimeStamp - savedTimeStamp) / 1000).floor();
 
     final int timer = savedTimer - diff;
-    return timer > 0 ?
-    timer : -1;
+    return timer > 0 ? timer : -1;
   }
-
 }

@@ -1,11 +1,11 @@
-
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'timer_storage.dart';
 
 class SharedPrefsStorage implements TimerStorage {
   final String key;
-  SharedPrefsStorage({required this.key});
 
+  SharedPrefsStorage({required this.key});
 
   @override
   Future<void> saveSeconds(int seconds) async {

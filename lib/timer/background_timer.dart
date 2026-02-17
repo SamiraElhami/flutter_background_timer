@@ -1,9 +1,9 @@
-import 'package:flutter/widgets.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:background_timer_package/storage/timer_storage_manager.dart';
-
 import 'package:background_timer_package/bloc/timer_cubit.dart';
 import 'package:background_timer_package/bloc/timer_state.dart';
+import 'package:background_timer_package/storage/timer_storage_manager.dart';
+import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'timer_controller.dart';
 
 class BackgroundTimer extends StatefulWidget {
@@ -57,11 +57,9 @@ class _BackgroundTimerState extends State<BackgroundTimer>
       case AppLifecycleState.resumed:
         _cubit.init();
         break;
-
       case AppLifecycleState.paused:
         _cubit.onBackground();
         break;
-
       default:
         break;
     }
